@@ -72,7 +72,7 @@ class NextFile(object):
 
     def _dirname(self):
         char1 = self.dir_index % 26
-        char2 = self.dir_index / 26 % 26
+        char2 = self.dir_index // 26 % 26
         return os.path.join(self.path_name, '%c%c' % (ord('A') + char2, ord('A') + char1))
 
     def _filepath(self):
@@ -102,7 +102,7 @@ class OutputSplitter(object):
 
     def write(self, data):
         self.reserve(len(data))
-        self.file.write(data)
+        self.file.write(data.encode('utf-8'))
 
     def close(self):
         self.file.close()
@@ -180,7 +180,7 @@ def process_dump(input_file, out_file, file_size, file_compress):
             url = urlbase + 'wiki?curid=' + id
             header = '<doc id="%s" url="%s" title="%s" language="%s" revision="%s">\n' % (id, url, title, language, revision)
             page = header + title + '\n\n' + text + '\n</doc>\n'
-            output.write(page.encode('utf-8'))
+            output.write(page)
 
 # ----------------------------------------------------------------------
 
